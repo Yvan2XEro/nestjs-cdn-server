@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   cdn:
@@ -7,7 +7,7 @@ services:
       context: .
       target: production
     ports:
-      - "${PORT:-3000}:${PORT:-3000}"
+      - '${PORT:-8024}:${PORT:-3000}'
     env_file:
       - .env
     volumes:
