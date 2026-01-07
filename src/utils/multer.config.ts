@@ -41,8 +41,8 @@ export const multerOptions = {
                 .fill(null)
                 .map(() => Math.round(Math.random() * 16).toString(16))
                 .join('');
-            // Calling the callback passing the random name generated with the original extension name
-            cb(null, `${randomName}${extname(file.originalname)}`);
+            const sanitizedOriginal = file.originalname.replace(/\s+/g, '_');
+            cb(null, `${randomName}-${sanitizedOriginal}`);
         },
     }),
 };
