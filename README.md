@@ -45,6 +45,13 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Configuration
+
+Environment variables:
+
+- `PORT`: Server port.
+- `ALLOWED_EXTENSIONS`: Optional comma-separated list of allowed file extensions. If omitted, only images are accepted (`jpg,jpeg,png,gif`). To allow PDFs, include `pdf` in the list (e.g. `jpg,jpeg,png,gif,pdf`).
+
 ## Test
 
 ```bash

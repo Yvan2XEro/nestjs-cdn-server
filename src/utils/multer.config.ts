@@ -8,6 +8,33 @@ export const multerConfig = {
     dest: "./public/images",
 };
 
+const defaultAllowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+const normalizeExtension = (value: string): string => value.replace(/^\./, '').trim().toLowerCase();
+
+const parseAllowedExtensions = (): string[] => {
+    const raw = process.env.ALLOWED_EXTENSIONS;
+    if (!raw) {
+        return defaultAllowedExtensions;
+    }
+    const list = String(raw)
+        .split(',')
+        .map(normalizeExtension)
+        .filter(Boolean);
+    return list.length > 0 ? list : defaultAllowedExtensions;
+};
+
+const getMimeSubtype = (mimetype: string | undefined): string => {
+    if (!mimetype) {
+        return '';
+    }
+    const parts = mimetype.split('/');
+    if (parts.length < 2) {
+        return '';
+    }
+    return parts[parts.length - 1].split('+')[0].toLowerCase();
+};
+
 // Multer upload options
 export const multerOptions = {
     // Enable file size limits
@@ -16,7 +43,10 @@ export const multerOptions = {
     },
     // Check the mimetypes to allow for upload
     fileFilter: (req: any, file: any, cb: any) => {
-        if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
+        const allowedExtensions = parseAllowedExtensions();
+        const fileExtension = normalizeExtension(extname(file.originalname));
+        const mimeSubtype = getMimeSubtype(file.mimetype);
+        if (allowedExtensions.includes(fileExtension) || allowedExtensions.includes(mimeSubtype)) {
             // Allow storage of file
             cb(null, true);
         } else {

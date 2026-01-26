@@ -13,6 +13,7 @@ import { join } from 'path';
     ConfigModule.forRoot({
       isGlobal: true, validationSchema: Joi.object({
         PORT: Joi.number().required(),
+        ALLOWED_EXTENSIONS: Joi.string().optional(),
       }),
       validationOptions: {
         abortEarly: true,
